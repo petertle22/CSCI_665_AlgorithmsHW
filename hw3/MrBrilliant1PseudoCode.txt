@@ -1,0 +1,23 @@
+MR_BRILLIANT_GREEDY1(int[] nums) 
+    int L = 0 // L denotes the index from which search
+              // for the smallest element
+    while(L < nums.length) 
+        L = FIND_SMALLEST_INDEX_ELEMENT(L, nums)
+        PRINT(nums[L] + "\t")
+        L++
+    RETURN
+
+
+FIND_SMALLEST_INDEX_ELEMENT(int offset, int[] nums)
+    if(offset >= nums.length) 
+        RETURN -1
+    
+    // Perform linear search to find the smallest element
+    int minIndex = offset 
+    int minElement = nums[offset]
+    for(int i = offset + 1; i < nums.length; i++) 
+        if(nums[i] < minElement) 
+            minIndex = i
+            minElement = nums[i]
+        
+    RETURN minIndex

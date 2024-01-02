@@ -1,0 +1,45 @@
+SWITCH_DIRECTION(int[][] adj) {
+    (int[] stronglyConnectedComponentOf, // stronglyConnectedComponents[vi] returns the corresponding
+                                         // strongly connected component label for vertex vi.
+                                         
+     int stronglyConnectedComponentCount) = STRONGLY-CONNECTED-COMPONENTS(adj);
+
+    int[][] sscAdj = new int[stronglyConnectedComponentCount + 1][stronglyConnectedComponentCount + 1];
+
+    for(int i = 1; i < adj.length; i++) {
+        for(int j = 1; j < adj[i].length; j++) {
+            if(adj[i][j] == 1 && stronglyConnectedComponentOf[i] != stronglyConnectedComponentOf[j]) {
+                sscAdj[stronglyConnectedComponentOf[i]][stronglyConnectedComponentOf[j]] = 1;
+            }
+        }
+    }
+
+    List topLogicalSort = TOP_ORDER(sscAdj);
+    int smallestLexicographicalEdgeStart = 999999999;
+    int smallestLexicographicalEdgeEnd  = 999999999;
+    for(int i = 1; i < adj.length; i++) {
+        for(int j = 1; j < adj[i].length; j++) {
+            if(adj[i][j] == 1 && stronglyConnectedComponentOf[i] == topLogicalSort.get(0) &&
+               stronglyConnectedComponentOf[j] == topLogicalSort.get(topLogicalSort.size() - 1)) {
+                if(i < smallestLexicographicalEdgeStart) {
+                    smallestLexicographicalEdgeStart = i;
+                    smallestLexicographicalEdgeEnd = j;
+                } else if(i == smallestLexicographicalEdgeStart) {
+                    smallestLexicographicalEdgeEnd = min(smallestLexicographicalEdgeEnd, j);
+                }
+            }
+        }
+    }
+    if(smallestLexicographicalEdgeEnd != 999999999 && smallestLexicographicalEdgeStart != 999999999) {
+        sscAdj[currentConnectedComponentCount][1] = 1;
+    }
+
+    (_, int stronglyConnectedComponentCountssc) = STRONGLY-CONNECTED-COMPONENTS(sscAdj);
+
+    if(stronglyConnectedComponentCountssc == 1) {
+        PRINT("YES");
+        PRINT(smallestLexicographicalEdgeStart + " " + smallestLexicographicalEdgeEnd);
+    } else {
+        PRINT("NO");
+    }
+}

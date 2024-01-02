@@ -1,0 +1,24 @@
+MR_BRILLIANT_GREEDY2(int[] nums) 
+   // Create some global variables to hold the final answer
+   maxLength = 0
+   Create a set called maxList // The set can be implemented 
+                               // with an array of size nums.length  
+
+   for(int L = 0; L < nums.length; L++) 
+       int i = L 
+       Create a set called list
+       list.add(nums[i])
+       for(int j = i + 1; j < nums.length; j++) 
+           if(nums[i] < nums[j]) 
+               i = j
+               list.add(nums[i])
+           
+       // Finished adding all elements to the temporary list, 
+       // now do a comparison to see if subsequence is larger
+       if(list.size() > maxLength) 
+           maxLength = list.size()
+           maxList = list
+   
+   // Output final list
+   for(int i = 0; i < maxList.size(); i++) 
+       PRINT(maxList[i] + "\t")

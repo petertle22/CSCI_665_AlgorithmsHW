@@ -1,0 +1,61 @@
+int a;
+int b;
+char[][] maze;
+          //  UP       RIGHT    DOWN     LEFT
+int[] dir = {-1, 0,    0, 1,    1, 0,    0, -1};
+boolean[][][][] visited;
+
+IS_OUT_OF_BOUNDS(int x, int y) {
+    RETURN x == -1 || x == a || y == -1 || y == b;
+}
+
+BFS(int x1, int y1, int x2, int y2) {
+    Queue q = new Queue();
+    q.add( (x1, y1, x2, y2) );
+
+    int depth = 0;
+    visited[x1][y1][x2][y2] = true;
+
+    while(q.size() > 0) {
+        depth++;
+        int breadthSize = q.size();
+        for(int i = 0; i < breadthSize; i++) {
+            int x1old, y1old, x2old, y2old;
+            (x1old, y1old, x2old, y2old)  = q.pop();
+            for(int j = 0; j < 8; j += 2) {
+                int x1new = x1old + dir[j]; int y1new = y1old + dir[j + 1];
+                int x2new = x2old + dir[j]; int y2new = y2old + dir[j + 1];
+                if(IS_OUT_OF_BOUNDS(x1new, y1new) && IS_OUT_OF_BOUNDS(x2new, y2new)) {
+                    RETURN depth;
+                } else if ( (IS_OUT_OF_BOUNDS(x1new, y1new) && NOT IS_OUT_OF_BOUNDS(x2new, y2new)) ||
+                            NOT IS_OUT_OF_BOUNDS(x1new, y1new) && IS_OUT_OF_BOUNDS(x2new, y2new) ) {
+                    continue;
+                } else {
+                    if(maze[x1new][y1new] == 'x' && maze[x2new][y2new] == 'x') { // Thing 1 and Thing 2 both into walls
+                        x1new = x1old;
+                        y1new = y1old;
+                        x2new = x2old;
+                        y2new = y2old;
+                    } else if(maze[x1new][y1new] == 'x') { // Thing 1 goes into a wall
+                        x1new = x1old;
+                        y1new = y1old;
+                        x2new = (x2new == x1old && y2new == y1old) ? x2old : x2new;
+                        y2new = (x2new == x1old && y2new == y1old) ? y2old : y2new;
+                    } else if(maze[x2new][y2new] == 'x') { // Thing 2 goes into a wall
+                        x2new = x2old;
+                        y2new = y2old;
+                        x1new = (x1new == x2old && y1new == y2old) ? x1old : x1new;
+                        y1new = (x1new == x2old && y1new == y2old) ? y1old : y1new;
+                    }
+                    if(visited[x1new][y1new][x2new][y2new]) {                            
+                        continue;
+                    } else {
+                        visited[x1new][y1new][x2new][y2new] = true;
+                        q.add( (x1new, y1new, x2new, y2new) );
+                    }
+                }
+            }
+        }
+    }
+    RETURN -1;
+}

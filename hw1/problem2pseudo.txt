@@ -1,0 +1,30 @@
+FIND_LARGEST_CLIQUE( N, adj )
+1. peopleLeft = N;
+2. Create a stack S with zero elements
+3. while peopleLeft > 0:
+4.   P = FIND_PERSON_WITH_MOST_FRIENDS( adj )
+5.   Append P to the end of S
+6.   peopleLeft = UPDATE_DATA_TO_REMOVE( P, adj, N )
+7. RETURN S
+
+FIND_PERSON_WITH_MOST_FRIENDS( adj )
+1. Create int popularFriend = -1
+2. Create int popularFriendCnt = -1
+3. for(i = 0; i < adj.length; i++)
+4    if (adj[i] == -1)
+5      continue
+6.   numFriends = Counter number of 1's in the binary representation of adj[i]
+7.   if (numFriends > popularFriendCnt)
+8.     popularFriend = i; popularFriendCnt = numFriends;
+9. RETURN popularFriend
+
+UPDATE_DATA_TO_REMOVE( P, adj, N )
+1. removedPeople = 0
+2. for( i = 0; i < N; i++ )
+3.   if (i == P or adj[i] == -1)
+4.     removedPeople++; continue;
+5.   adj[i] = adj[i] & adj[P]
+6.   if (adj[P] & (1 << i) == 0)
+7.     adj[i] = -1; removedPeople++
+8. adj[P] = -1
+9. RETURN N - removedPeople

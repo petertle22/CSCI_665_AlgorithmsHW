@@ -1,0 +1,9 @@
+NEGATIVE_CYCLE(G - e^{-}, u, v, w) {
+  dist[] = DIJKSTRA(G - e^{-}, v)
+
+  if(dist[u] == inf || |w| <= dist[u]) {
+    PRINT("NO");
+  } else {
+    PRINT("YES");
+  }
+}

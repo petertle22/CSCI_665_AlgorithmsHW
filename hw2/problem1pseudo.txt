@@ -1,0 +1,33 @@
+FIND_MAXIMUM_RECTANGLE(inputPoints)
+  Create array called points that includes the top left corner of every rectangle
+    and the last rectangle's top right corner // {(x0, y0), (x1, y1),...,(x(n - 1), y(n-1)}
+
+  Create stack data structure called stack that holds the first rectangles 
+    top left corner // stack = [(x0, y0)]
+
+  Create int maxArea = -1
+
+  for(i = 1; i < points.length; i++)
+    if(stack.peek().getHeight() < points[i][1]) 
+      stack.push(points[i]); // top of stack's rectangle height is shorter than the incoming
+                             // rectangle's height, so add it to the stack (Case 1)
+    else
+      topElementToRemove = null;
+      while(points[i][i] < stack.peek().getHeight())
+	topElementToRemove = stack.pop() // Pop stacked heights that are larger than the
+                                         // current point, while computing the area (Case 2)
+        maxArea = max(area, (point[i][0] - topElementToRemove[0]) *  topElementToRemove[1]))
+                     
+      if(totalElementToRemove == null) // current point has the same height as the stack's 
+                                       // top height, so continue BC we want the earliest
+                                       // starting index (Case 3)
+	  continue
+      stack.push((topElementToRemove[0], points[i][1])) // Extend the current point's
+                                                        // starting index back all the
+                                                        // way to the last taller
+                                                        // rectangle's starting index
+
+  while(stack.peek() != null) // Final step to compute all possible areas left
+    top = stack.pop()
+    maxArea = max(maxArea, ((x(n - 1)) - top[0]) * top[1])    
+  PRINT(maxArea)

@@ -1,0 +1,20 @@
+DFS(int root, boolean[] visited, int[][] adj) {
+  visited[root] = true;
+  for(int nei = 1; nei < adj[root].length; nei++) {
+      if(adj[root][nei] == 1 && NOT visited[nei]) {
+          dfs(nei, visited, adj);
+      }
+  }
+}
+
+CONNECT_GRAPH(int[][] adj) {       
+  boolean[] visited = new boolean[N + 1];
+  int numConnectedComponents = 0;
+  for(int i = 1; i < N + 1; i++) {
+    if(NOT visited[i]) {
+      numConnectedComponents++;
+      dfs(i, visited, adj);
+    }
+  }
+  PRINT(numConnectedComponents - 1);
+}

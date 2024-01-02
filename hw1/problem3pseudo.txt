@@ -1,0 +1,15 @@
+IS_EVERY_PLANT_UPGRADABLE(plants, maxHeapT)
+  
+  MERGE_SORT(plants) // sorts the plants in descending order
+
+  for(i = 0; i < plants.length; i++)
+    if(plants[i] >= root(maxHeapT)) // the current used plant is larger 
+                                    // or equal to the size of the biggest free planter
+      print("NO")
+      END PROGRAM
+    else
+      // swap the current planter with the biggest unused planter
+      // add the current used planter back to the maxHeapT heap which is a 
+      // maxHeap of unused planter
+
+  print("YES") // at this point all plants were upgraded to a larger pot

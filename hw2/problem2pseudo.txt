@@ -1,0 +1,33 @@
+SORT_AND_COUNT_WEIGHT(array)
+  if(array.length == 1)
+    RETURN (0, array)
+
+  mid = array.length / 2; N = array.length;
+  left = {(x0, idx0); (x1, idx1);...; (x(mid); idx(mid))}
+  right = {(x(mid + 1), idx(mid + 1));...; (x(N - 1); idx(N - 1))}
+
+  (leftWeight, leftSortedArray)   = SORT_AND_COUNT_WEIGHT(left)
+  (rightWeight, rightSortedArray) = SORT_AND_COUNT_WEIGHT(right)
+  (mergedWeight, array) = MERGE_AND_COUNT(leftSortedArray, 
+                                          rightSortedArray, 
+                                          array)
+
+  RETURN (leftWeight + rightWeight + mergedWeight, array)
+
+MERGE_AND_COUNT(left, right, res)
+  Create leftSumWeights array of size |left|;
+  leftSumWeights[leftSumWeights.length - 1] = left[left.length -1](1)
+  
+  for(i = left.length - 2; i >= 0; i--)
+    leftSumWeights[i] = leftSumWeights[i + 1] + left[i](1)
+  
+  i = j = k = combinedWeight = 0
+  while(i < left.length && j < right.length)
+    if(left[i](0) <= right[j](0))
+      res[k] = left[i++]
+    else
+      combinedWeight += (left.length - i) * right[j](1) - leftSumWeights[i]
+      res[k] = right[j++]
+    k++;
+  append remainder of the list which haven't been finished to res
+  RETURN (combinedWeight, res)
